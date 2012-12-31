@@ -112,8 +112,6 @@ static int s3cfb_draw_logo(struct fb_info *fb)
 	}
 	return 0;
 }
-#endif //defined(CONFIG_FB_S3C_LVDS) 
-
 #endif
 static irqreturn_t s3cfb_irq_frame(int irq, void *data)
 {
