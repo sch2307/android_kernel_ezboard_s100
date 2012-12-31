@@ -1,6 +1,6 @@
 /**********************************************************************
  *
- * Copyright(c) 2008 Imagination Technologies Ltd. All rights reserved.
+ * Copyright (C) Imagination Technologies Ltd. All rights reserved.
  * 
  * This program is free software; you can redistribute it and/or modify it
  * under the terms and conditions of the GNU General Public License,
@@ -58,9 +58,6 @@ typedef enum _PVRSRV_INIT_SERVER_STATE_
 	PVRSRV_INIT_SERVER_FORCE_I32 = 0x7fffffff
 
 } PVRSRV_INIT_SERVER_STATE, *PPVRSRV_INIT_SERVER_STATE;
-
-int zero_pvr_suspend(int a);
-int zero_pvr_resume(int a);
 
 IMG_IMPORT
 IMG_BOOL PVRSRVGetInitServerState(PVRSRV_INIT_SERVER_STATE	eInitServerState);
