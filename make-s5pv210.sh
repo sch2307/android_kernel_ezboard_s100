@@ -13,20 +13,22 @@ target_filename="/tftpboot/zImage.ezs5pv210-s100-android"
 
 # tool chain check
 #toolchain_path="$SDK_DIR/toolchain/CodeSourcery"
-toolchain_path="/opt/CodeSourcery"
-cross_compile="$toolchain_path/bin/arm-none-eabi-"
+toolchain_path="/home/choijuone/arm-2009q3"
+cross_compile="$toolchain_path/bin/arm-none-linux-gnueabi-"
 
+# Modded
+# I love modding defconfig
 
 # build .config
 if [ ! -d $build_path ]; then
 	mkdir $build_path
 	chmod 777 $build_path
-	CROSS_COMPILE=$cross_compile ARCH=arm make O=$build_path ezs5pv210_defconfig
 fi
 
 
 # build kernel image
 if [ "$1" = "" ] ; then
+	CROSS_COMPILE=$cross_compile ARCH=arm make O=$build_path ezs5pv210_defconfig
 	CROSS_COMPILE=$cross_compile ARCH=arm make O=$build_path zImage -j 4
 	#CROSS_COMPILE=$cross_compile ARCH=arm make O=$build_path 
 else
@@ -36,6 +38,7 @@ fi
 
 # build kernel modules
 if [ "$1" = "modules" ] ; then
+	CROSS_COMPILE=$cross_compile ARCH=arm make O=$build_path ezs5pv210_defconfig
 	CROSS_COMPILE=$cross_compile ARCH=arm INSTALL_MOD_PATH=$module_install make O=$build_path modules
 	CROSS_COMPILE=$cross_compile ARCH=arm INSTALL_MOD_PATH=$module_install make O=$build_path modules_install
 fi
