@@ -599,15 +599,12 @@ static int s3cfb_ioctl(struct fb_info *fb, unsigned int cmd, unsigned long arg)
 		int vsync;
 	} p;
 
-		printk("[%d] fb%d fbio_waitforvsync\n", __LINE__, win->id );
-
 	switch (cmd) {
 	case FBIO_WAITFORVSYNC:
 		s3cfb_wait_for_vsync(fbdev);
 		break;
 
 	case S3CFB_WIN_POSITION:
-		printk("[%d] fb%d fbio_waitforvsync\n", __LINE__, win->id );
 		if (copy_from_user(&p.user_window,
 				   (struct s3cfb_user_window __user *)arg,
 				   sizeof(p.user_window)))
@@ -631,11 +628,9 @@ static int s3cfb_ioctl(struct fb_info *fb, unsigned int cmd, unsigned long arg)
 
 			s3cfb_set_window_position(fbdev, win->id);
 		}
-		printk("[%d] fb%d fbio_waitforvsync\n", __LINE__, win->id );
 		break;
 
 	case S3CFB_WIN_SET_PLANE_ALPHA:
-		printk("[%d] fb%d fbio_waitforvsync\n", __LINE__, win->id );
 		if (copy_from_user(&p.user_alpha,
 				   (struct s3cfb_user_plane_alpha __user *)arg,
 				   sizeof(p.user_alpha)))
@@ -649,11 +644,9 @@ static int s3cfb_ioctl(struct fb_info *fb, unsigned int cmd, unsigned long arg)
 
 			s3cfb_set_alpha_blending(fbdev, win->id);
 		}
-		printk("[%d] fb%d fbio_waitforvsync\n", __LINE__, win->id );
 		break;
 
 	case S3CFB_WIN_SET_CHROMA:
-		printk("[%d] fb%d fbio_waitforvsync\n", __LINE__, win->id );
 		if (copy_from_user(&p.user_chroma,
 				   (struct s3cfb_user_chroma __user *)arg,
 				   sizeof(p.user_chroma)))
@@ -666,11 +659,9 @@ static int s3cfb_ioctl(struct fb_info *fb, unsigned int cmd, unsigned long arg)
 
 			s3cfb_set_chroma_key(fbdev, win->id);
 		}
-		printk("[%d] fb%d fbio_waitforvsync\n", __LINE__, win->id );
 		break;
 
 	case S3CFB_SET_VSYNC_INT:
-		printk("[%d] fb%d fbio_waitforvsync\n", __LINE__, win->id );
 		if (get_user(p.vsync, (int __user *)arg))
 			ret = -EFAULT;
 		else {
@@ -679,7 +670,6 @@ static int s3cfb_ioctl(struct fb_info *fb, unsigned int cmd, unsigned long arg)
 
 			s3cfb_set_vsync_interrupt(fbdev, p.vsync);
 		}
-		printk("[%d] fb%d fbio_waitforvsync\n", __LINE__, win->id );
 		break;
 
 	case S3CFB_GET_CURR_FB_INFO:
@@ -717,47 +707,6 @@ struct fb_ops s3cfb_ops = {
 	.fb_open = s3cfb_open,
 	.fb_release = s3cfb_release,
 };
-
-
-static void s3cfb_fbinfo_print( struct fb_var_screeninfo *var )
-{
-
-	printk("=========== [%s:%d] ========== \n", __FUNCTION__,__LINE__);
-
-	printk( " var->xres:%d\n"        ,var->xres);			/* visible resolution		*/
-	printk( " var->yres:%d\n"        ,var->yres);
-	printk( " var->xres_virtual:%d\n",var->xres_virtual);		/* virtual resolution		*/
-	printk( " var->yres_virtual:%d\n",var->yres_virtual);
-	printk( " var->xoffset:%d\n"	 ,var->xoffset);		 	/* offset from virtual to visible */
-	printk( " var->yoffset:%d\n"	 ,var->yoffset);		 	/* resolution			*/
-	printk( " var->bits_per_pixel:%d\n", var->bits_per_pixel);	/* guess what			*/
-	printk( " var->grayscale	 :%d\n", var->grayscale	    ); /* != 0 Graylevels instead of colors */
-
-	// struct fb_bitfield red;		/* bitfield in fb mem if true color, */
-	// struct fb_bitfield green;	/* else only length is significant */
-	// struct fb_bitfield blue;
-	// struct fb_bitfield transp;	/* transparency			*/	
-
-	printk( " var->nonstd		 :%d\n", var->nonstd	)	;			/* != 0 Non standard pixel format */
-	printk( " var->activate		 :%d\n", var->activate	)	;			/* see FB_ACTIVATE_*		*/
-	printk( " var->height		 :%d\n", var->height	)	;			/* height of picture in mm    */
-	printk( " var->width		 :%d\n", var->width		);			/* width of picture in mm     */
-	printk( " var->accel_flags	 :%d\n", var->accel_flags);		/* (OBSOLETE) see fb_info.flags */
-                                  
-	/* Timing: All values in pixclocks, except pixclock (of course) */
-	printk( " var->pixclock  	:%d\n", var->pixclock  		);			/* pixel clock in ps (pico seconds) */
-	printk( " var->left_margin  :%d\n", var->left_margin  	);		/* time from sync to picture	*/
-	printk( " var->right_margin :%d\n", var->right_margin  	);		/* time from picture to sync	*/
-	printk( " var->upper_margin :%d\n", var->upper_margin  	);		/* time from sync to picture	*/
-	printk( " var->lower_margin :%d\n", var->lower_margin 	);
-	printk( " var->hsync_len  	:%d\n", var->hsync_len  	);		/* length of horizontal sync	*/
-	printk( " var->vsync_len  	:%d\n", var->vsync_len  	);		/* length of vertical sync	*/
-	printk( " var->sync  		:%d\n", var->sync  			);			/* see FB_SYNC_*		*/
-	printk( " var->vmode  		:%d\n", var->vmode  		);			/* see FB_VMODE_*		*/
-	printk( " var->rotate  		:%d\n", var->rotate  		);			/* angle we rotate counter clockwise */
-
-}
-
 
 static void s3cfb_init_fbinfo(struct s3cfb_global *ctrl, int id)
 {
