@@ -231,9 +231,7 @@ struct s3cfb_global {
 	struct regulator	*vlcd;
 	int			irq;
 	struct fb_info		**fb;
-
-	wait_queue_head_t  vsync_wait;
-	ktime_t      vsync_timestamp;
+	struct completion	fb_complete;
 
 	/* fimd */
 	int			enabled;
@@ -242,7 +240,6 @@ struct s3cfb_global {
 	enum s3cfb_output_t	output;
 	enum s3cfb_rgb_mode_t	rgb_mode;
 	struct s3cfb_lcd	*lcd;
-	u32	pixclock_hz;
 
 #ifdef CONFIG_HAS_WAKELOCK
 	struct early_suspend	early_suspend;
@@ -315,8 +312,6 @@ struct s3cfb_next_info {
 #define S3CFB_SET_WIN_ADDR		_IOW('F', 309, unsigned long)
 #define S3CFB_SET_WIN_MEM		_IOW('F', 310, \
 						enum s3cfb_mem_owner_t)
-// New IOCTL that waits for vsync and returns a timestamp
-#define S3CFB_WAIT_FOR_VSYNC  _IOR('F', 311, u64)
 
 /*
  * E X T E R N S
