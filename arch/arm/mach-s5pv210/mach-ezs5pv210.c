@@ -974,6 +974,13 @@ static void __init ezs5pv210_machine_init(void)
 	s3c_sdhci_set_platdata();
 #endif
 
+#ifdef CONFIG_SOUND
+	//GPIO E0_6 HIGH
+	s3c_gpio_cfgpin (S5PV210_GPE0(6), S3C_GPIO_OUTPUT);
+	s3c_gpio_setpull(S5PV210_GPE0(6), S3C_GPIO_PULL_UP);
+	gpio_set_value(S5PV210_GPE0(6), 1);
+#endif
+
 #ifdef CONFIG_CPU_FREQ
 	s5pv210_cpufreq_set_platdata(&smdkc110_cpufreq_plat);
 #endif
