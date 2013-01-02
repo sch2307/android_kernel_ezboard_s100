@@ -931,7 +931,6 @@ static int __devinit s3cfb_probe(struct platform_device *pdev)
 		ret = -ENOMEM;
 		goto err_global;
 	}
-
 	fbdev->dev = &pdev->dev;
 
 #if 0
